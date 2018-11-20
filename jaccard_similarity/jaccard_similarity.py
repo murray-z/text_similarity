@@ -5,7 +5,7 @@ import jieba
 STOPWORDS = '../data/stop_words.txt'
 
 
-class CountNumSimilarity():
+class JaccardSimilarity():
     """
     根据文本相同词汇数目，计算相似性
 
@@ -33,5 +33,5 @@ class CountNumSimilarity():
 if __name__ == '__main__':
     text1 = "小明，你妈妈喊你回家吃饭啦"
     text2 = "回家吃饭啦，小明"
-    similarity = CountNumSimilarity()
+    similarity = JaccardSimilarity()
     print(similarity.similarity(text1, text2))

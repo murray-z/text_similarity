@@ -8,7 +8,7 @@
     - cosion_similarity
         - 将文本转换成向量，根据余弦求文本相似性。
         
-    - count_num_similarity
+    - jaccard_similarity
         - 直接计算两个文本中相同词汇数目与总词汇数目的比值，获得文本相似性。
         
     - simhash_similarity
