@@ -16,3 +16,9 @@
         
     - edit_distance_similarity
         - 根据编辑距离算法，求得两文本编辑作为其相似性，编辑距离越大，相似性越低。
+        
+    - euclid_similarity
+        - 根据欧氏距离计算文本相似性。
+        
+    - manhattan_similarity
+        - 根据曼哈顿距离计算文本相似性。
