@@ -8,7 +8,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 class LsiSimilarity():
     def __init__(self, model='./model/lsi/lsi.model', dictionary='./model/lsi/dictionary.dic'):
-        self.lda = LsiModel.load(model)
+        self.lsi = LsiModel.load(model)
         self.dic = corpora.Dictionary.load(dictionary)
 
     def sentence_to_vector(self, text):
@@ -18,7 +18,7 @@ class LsiSimilarity():
         :return:
         """
         bow = self.dic.doc2bow(jieba.lcut(text))
-        return [v for k, v in self.lda[bow]]
+        return [v for k, v in self.lsi[bow]]
 
     def similarity(self, text1, text2):
         vector1 = self.sentence_to_vector(text1)
