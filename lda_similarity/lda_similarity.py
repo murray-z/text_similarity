@@ -11,18 +11,42 @@ class LdaSimilarity():
         self.lda = LdaModel.load(model)
         self.dic = corpora.Dictionary.load(dictionary)
 
-    def sentence_to_vector(self, text):
+    def sentence_to_bow(self, text):
         """
         将文本转换成向量
         :param text:
-        :return:
+        :return:[(id, val), (id, val)]
         """
         bow = self.dic.doc2bow(jieba.lcut(text))
-        return [v for k, v in self.lda[bow]]
+        return self.lda[bow]
+
+    def bow_to_vector(self, bow1, bow2):
+        """
+        转换数据格式
+        :param bow1:
+        :param bow2:
+        :return: [val_id1, val_id2]
+        """
+        dic_1 = {}
+        dic_2 = {}
+        for id, tfidf in bow1:
+            dic_1[id] = tfidf
+
+        for id, tfidf in bow2:
+            dic_2[id] = tfidf
+
+        all_ids = set(dic_1.keys()) | set(dic_2.keys())
+
+        vector1 = [dic_1[id] if id in dic_1 else 0 for id in all_ids]
+        vector2 = [dic_2[id] if id in dic_2 else 0 for id in all_ids]
+        return vector1, vector2
 
     def similarity(self, text1, text2):
-        vector1 = self.sentence_to_vector(text1)
-        vector2 = self.sentence_to_vector(text2)
+        bow_1 = self.sentence_to_bow(text1)
+        bow_2 = self.sentence_to_bow(text2)
+
+        vector1, vector2 = self.bow_to_vector(bow_1, bow_2)
+
         return cosine_similarity([vector1], [vector2])[0][0]
 
 
