@@ -31,6 +31,9 @@
     
 - tfidf_similarity
     - 基于tfidf对文本进行向量转换，采用cosion进行相似度计算
+    
+- md25_smilarity
+    - 基于md25计算查询语句与文本之间的相似性
         
 
 ## gensim模型训练     
