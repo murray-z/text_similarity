@@ -1,10 +1,16 @@
 # -*- coding: utf-8 -*-
 
 import jieba
+import json
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 
-def train_idf():
+def train_idf(idf_dic='./idf.dic'):
+    '''
+    训练并保存语料中词语idf信息
+    :param idf_dic:
+    :return:
+    '''
     corpus = ["This is very strange",
               "This is very nice"]
     vectorizer = TfidfVectorizer(
@@ -15,16 +21,28 @@ def train_idf():
                             binary=False,
                             min_df=1, max_df=1.0, max_features=None,
                             strip_accents='unicode', # retira os acentos
-                            ngram_range=(1,1), preprocessor=None,              stop_words=None, tokenizer=None, vocabulary=None
+                            ngram_range=(1,1), preprocessor=None,
+                            stop_words=None,
+                            tokenizer=None,
+                            vocabulary=None
                  )
     X = vectorizer.fit_transform(corpus)
     idf = vectorizer.idf_
-    print(dict(zip(vectorizer.get_feature_names(), idf)))
+    idf_dict = dict(zip(vectorizer.get_feature_names(), idf))
+    with open(idf_dic, 'w', encoding='utf-8') as f:
+        json.dump(idf_dict, f, ensure_ascii=False, indent=4)
 
 
 class Md25Similarity:
-    def __init__(self, idf):
-        self.idf = idf
+    '''
+    md25：求查询语句和文本之间的相似性
+    '''
+    def __init__(self, idf_path):
+        self.idf = self.load_idf(idf_path)
+
+    def load_idf(self, idf_path):
+        with open(idf_path, 'r', encoding='utf-8') as f:
+            return json.loads(f.read())
 
     def similarity(self, s1, s2, s_avg=10, k1=2.0, b=0.75):
         bm25 = 0
@@ -37,3 +55,5 @@ class Md25Similarity:
         return bm25
 
 
+if __name__ == '__main__':
+    train_idf()
