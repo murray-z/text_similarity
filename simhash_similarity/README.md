@@ -5,4 +5,4 @@
 
 </pre>
 - 参考
-- [simhash](https://github.com/zhangfazhan/SimHash)
+- [simhash](https://github.com/zhangfazhan/utils/blob/master/simhash.py)
